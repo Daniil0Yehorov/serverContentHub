@@ -9,9 +9,10 @@ import java.util.Set;
 public class tags {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true,name = "id")
     private int id;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false,name="name")
     private String name;
 
     @OneToMany(mappedBy = "tags")

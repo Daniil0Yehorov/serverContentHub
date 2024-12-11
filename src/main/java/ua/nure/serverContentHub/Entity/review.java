@@ -4,12 +4,14 @@ package ua.nure.serverContentHub.Entity;
 import jakarta.persistence.*;
 import ua.nure.serverContentHub.Entity.Enum.ReviewStatus;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
 public class review {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true,name = "id")
     private int id;
 
     @ManyToOne
@@ -26,8 +28,8 @@ public class review {
     @Column(nullable = false)
     private int Rating;
 
-    @Column(nullable = false)
-    private Date ReviewDate;
+    @Column(nullable = false,name = "Review_Date")
+    private LocalDateTime ReviewDate;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -73,11 +75,11 @@ public class review {
         this.Rating = rating;
     }
 
-    public Date getReviewDate() {
+    public LocalDateTime getReviewDate() {
         return ReviewDate;
     }
 
-    public void setReviewDate(Date reviewDate) {
+    public void setReviewDate(LocalDateTime reviewDate) {
         this.ReviewDate = reviewDate;
     }
 
@@ -90,7 +92,7 @@ public class review {
     }
 
     public review(int id, user user, user creator, String text,
-                  int rating, Date reviewDate, ReviewStatus status) {
+                  int rating, LocalDateTime reviewDate, ReviewStatus status) {
         this.id = id;
         this.user = user;
         this.creator = creator;

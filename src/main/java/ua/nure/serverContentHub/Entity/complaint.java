@@ -7,7 +7,8 @@ import ua.nure.serverContentHub.Entity.Enum.ComplaintStatus;
 @Entity
 public class complaint {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true,name = "id")
     private int id;
 
     @ManyToOne

@@ -3,34 +3,36 @@ package ua.nure.serverContentHub.Entity;
 import jakarta.persistence.*;
 import ua.nure.serverContentHub.Entity.Enum.Role;
 import ua.nure.serverContentHub.Entity.Enum.User_Status;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 public class user {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true,name = "id")
     private int id;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false,name = "login")
     private String login;
 
-    @Column(nullable = false)
+    @Column(nullable = false,name = "Password")
     private String Password;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false,name = "Name")
     private String Name;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false,name = "Email")
     private String Email;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false,name = "Role")
     private Role role;
 
-    @Column(nullable = false)
-    private Date RegistrationDate;
+    @Column(nullable = false,name = "Registration_Date")
+    private LocalDateTime RegistrationDate;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -99,11 +101,11 @@ public class user {
         this.role = role;
     }
 
-    public Date getRegistrationDate() {
+    public LocalDateTime getRegistrationDate() {
         return RegistrationDate;
     }
 
-    public void setRegistrationDate(Date registrationDate) {
+    public void setRegistrationDate(LocalDateTime registrationDate) {
         this.RegistrationDate = registrationDate;
     }
 
@@ -147,11 +149,11 @@ public class user {
         this.subscriptions = subscriptions;
     }
 
-    public List<ua.nure.serverContentHub.Entity.likes> getLikes() {
+    public List<likes> getLikes() {
         return likes;
     }
 
-    public void setLikes(List<ua.nure.serverContentHub.Entity.likes> likes) {
+    public void setLikes(List<likes> likes) {
         this.likes = likes;
     }
 
@@ -175,7 +177,7 @@ public class user {
     }
 
     public user(int id, String login, String password, String name, String email,
-                Role role, Date registrationDate, User_Status status, profile profile,
+                Role role, LocalDateTime registrationDate, User_Status status, profile profile,
                 List<complaint> complaints, List<review> reviews, List<subscription> subscriptions, List<ua.nure.serverContentHub.Entity.likes> likes) {
         this.id = id;
         this.login = login;
@@ -191,4 +193,5 @@ public class user {
         this.subscriptions = subscriptions;
         this.likes = likes;
     }
+    public user() {}
 }

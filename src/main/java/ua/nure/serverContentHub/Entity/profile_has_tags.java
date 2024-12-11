@@ -6,7 +6,8 @@ import jakarta.persistence.*;
 public class profile_has_tags {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true,name = "id")
     private int id;
 
 

@@ -1,13 +1,15 @@
 package ua.nure.serverContentHub.Entity;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 public class post {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true,name = "id")
     private int id;
 
     @ManyToOne
@@ -17,9 +19,9 @@ public class post {
     @Column(nullable = false, length =65535)
     private String content;
 
-    @Column(nullable = false)
-    private Date publishDate;
-
+    @Column(nullable = false,name = "Publish_Date")
+    private LocalDateTime publishDate;
+    @Column(nullable = false,name = "Like_Count")
     private int likeCount;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
@@ -52,11 +54,11 @@ public class post {
         this.content = content;
     }
 
-    public Date getPublishDate() {
+    public LocalDateTime getPublishDate() {
         return publishDate;
     }
 
-    public void setPublishDate(Date publishDate) {
+    public void setPublishDate(LocalDateTime publishDate) {
         this.publishDate = publishDate;
     }
 
@@ -84,8 +86,8 @@ public class post {
         this.complaints = complaints;
     }
 
-    public post(int id, profile profile, String content, Date publishDate,
-                int likeCount, List<ua.nure.serverContentHub.Entity.likes> likes, List<complaint> complaints) {
+    public post(int id, profile profile, String content, LocalDateTime publishDate,
+                int likeCount, List<likes> likes, List<complaint> complaints) {
         this.id = id;
         this.profile = profile;
         this.content = content;

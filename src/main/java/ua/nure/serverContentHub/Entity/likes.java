@@ -1,11 +1,14 @@
 package ua.nure.serverContentHub.Entity;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 @Entity
 public class likes {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true,name = "id")
     private int id;
 
     @ManyToOne
@@ -16,8 +19,8 @@ public class likes {
     @JoinColumn(name = "PostID", nullable = false)
     private post post;
 
-    @Column(nullable = false)
-    private Date LikeDate;
+    @Column(nullable = false,name = "Like_Date")
+    private LocalDateTime LikeDate;
 
     public int getId() {
         return id;
@@ -43,15 +46,15 @@ public class likes {
         this.post = post;
     }
 
-    public Date getLikeDate() {
+    public LocalDateTime getLikeDate() {
         return LikeDate;
     }
 
-    public void setLikeDate(Date likeDate) {
+    public void setLikeDate(LocalDateTime likeDate) {
         this.LikeDate = likeDate;
     }
 
-    public likes(int id, user user, post post, Date likeDate) {
+    public likes(int id, user user, post post, LocalDateTime likeDate) {
         this.id = id;
         this.user = user;
         this.post = post;

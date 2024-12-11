@@ -2,6 +2,7 @@ package ua.nure.serverContentHub.Entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -9,6 +10,7 @@ import java.util.Date;
 public class subscription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true,name = "id")
     private int id;
 
     @ManyToOne
@@ -19,8 +21,8 @@ public class subscription {
     @JoinColumn(name = "CreatorID", nullable = false)
     private user creator;
 
-    @Column(nullable = false)
-    private Date subscriptionDate;
+    @Column(nullable = false,name="Subscription_Date")
+    private LocalDateTime SubscriptionDate;
 
     public int getId() {
         return id;
@@ -46,19 +48,19 @@ public class subscription {
         this.creator = creator;
     }
 
-    public Date getSubscriptionDate() {
-        return subscriptionDate;
+    public LocalDateTime getSubscriptionDate() {
+        return SubscriptionDate;
     }
 
-    public void setSubscriptionDate(Date subscriptionDate) {
-        this.subscriptionDate = subscriptionDate;
+    public void setSubscriptionDate(LocalDateTime subscriptionDate) {
+        this.SubscriptionDate = subscriptionDate;
     }
 
-    public subscription(int id, user user, user creator, Date subscriptionDate) {
+    public subscription(int id, user user, user creator, LocalDateTime subscriptionDate) {
         this.id = id;
         this.user = user;
         this.creator = creator;
-        this.subscriptionDate = subscriptionDate;
+        this.SubscriptionDate = subscriptionDate;
     }
 
     @Override
@@ -67,7 +69,7 @@ public class subscription {
                 "id=" + id +
                 ", User=" + user +
                 ", creator=" + creator +
-                ", subscriptionDate=" + subscriptionDate +
+                ", subscriptionDate=" + SubscriptionDate +
                 '}';
     }
 }

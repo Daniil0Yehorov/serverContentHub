@@ -8,7 +8,8 @@ import java.util.Set;
 @Entity
 public class profile {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true,name = "id")
     private int id;
 
     @OneToOne
@@ -31,7 +32,8 @@ public class profile {
 
     @Column( length = 65535)
     private String Youtube;
-    //default
+
+    @Column(name="Subscribers_Count")
     private int SubscribersCount;
     //default
     private int Rating;
@@ -184,5 +186,8 @@ public class profile {
         this.posts = posts;
         this.phs = phs;
         this.complaints = complaints;
+    }
+    public profile(){
+
     }
 }
