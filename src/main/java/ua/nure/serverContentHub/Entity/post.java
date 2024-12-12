@@ -109,4 +109,5 @@ public class post {
                 ", complaints=" + complaints +
                 '}';
     }
+    public post(){}
 }

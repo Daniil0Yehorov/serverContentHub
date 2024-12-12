@@ -56,4 +56,5 @@ public class tags {
                 ", phs=" + phs +
                 '}';
     }
+    public tags(){}
 }

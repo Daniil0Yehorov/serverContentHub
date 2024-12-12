@@ -4,4 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import ua.nure.serverContentHub.Entity.tags;
 
 public interface tagsRepository extends JpaRepository<tags,Long> {
+    tags findByName(String name);
 }

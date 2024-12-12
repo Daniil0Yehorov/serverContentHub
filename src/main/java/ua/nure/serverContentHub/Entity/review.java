@@ -114,4 +114,5 @@ public class review {
                 ", Status=" + Status +
                 '}';
     }
+    public review() {}
 }

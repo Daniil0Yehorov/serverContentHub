@@ -70,4 +70,5 @@ public class likes {
                 ", LikeDate=" + LikeDate +
                 '}';
     }
+    public likes(){}
 }

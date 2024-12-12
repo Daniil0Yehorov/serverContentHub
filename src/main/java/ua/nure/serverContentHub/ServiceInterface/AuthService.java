@@ -1,15 +1,8 @@
 package ua.nure.serverContentHub.ServiceInterface;
 
-
 import jakarta.jws.WebService;
 import ua.nure.serverContentHub.Entity.user;
 
-
-/**
- * 	Реєстрація
- * 	Авторизація
- * 	Вихід з облікового запису
- */
 
 @WebService(targetNamespace = "http://ServiceImplementation.serverContentHub.nure.ua/")
 public interface AuthService {
@@ -19,5 +12,4 @@ public interface AuthService {
     user update(user user);
     //авторизація
     user login(String login, String password);
-
 }

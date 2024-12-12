@@ -23,7 +23,7 @@ public class complaint {
     @JoinColumn(name = "profile_UserID")
     private profile profile;
 
-    @Column(length = 65535, nullable = false)
+    @Column(length = 65535, nullable = false,name="Reason")
     private String Reason;
 
     @Enumerated(EnumType.STRING)
@@ -99,4 +99,5 @@ public class complaint {
                 ", Status=" + Status +
                 '}';
     }
+    public complaint(){}
 }

@@ -57,4 +57,5 @@ public class profile_has_tags {
         this.profile = profile;
         this.tags = tags;
     }
+    public profile_has_tags (){}
 }
