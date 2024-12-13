@@ -25,9 +25,8 @@ public class AuthServiceImpl implements AuthService {
             "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
     );
 
-
-    //@Override
-   /* public void save(User user) {
+    @Override
+   public void save(User user) {
         if (user == null) {
             throw new IllegalArgumentException("Користувач не може бути null.");
         }
@@ -64,25 +63,6 @@ public class AuthServiceImpl implements AuthService {
             user.setProfile(newProfile);
             prRepository.save(newProfile);}
 
-    }*/
-
-    public void save(UserDTO userDTO) {
-        if (userDTO == null) {
-            throw new IllegalArgumentException("Користувач не може бути null.");
-        }
-
-        // Маппим DTO в сущность
-        User user = new User();
-        user.setLogin(userDTO.getLogin());
-        user.setPassword(userDTO.getPassword());
-        user.setName(userDTO.getName());
-        user.setEmail(userDTO.getEmail());
-        user.setRole(userDTO.getRole());
-        user.setRegistrationDate(userDTO.getRegistrationDate());
-        user.setStatus(userDTO.getStatus());
-
-        // Сохраняем пользователя в БД
-        userRepository.save(user);
     }
     @Override
     public User login(String login, String password) {
