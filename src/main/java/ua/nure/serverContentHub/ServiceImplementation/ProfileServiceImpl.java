@@ -33,11 +33,16 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public void placeTagsForProfile(int profileId, String[] tagNames) {
-
         profile profile = profileRepositoryS.findById(profileId);
+        if (profile == null) {
+            throw new IllegalArgumentException("Профіль не знайден");
+        }
 
         for (String tagName : tagNames) {
             tags tag = tagsrepo.findByName(tagName);
+            if (tag == null) {
+                throw new IllegalArgumentException("Тег не знайден: " + tagName);
+            }
 
             profile_has_tags profileHasTag = new profile_has_tags();
             profileHasTag.setProfile(profile);
@@ -48,8 +53,12 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public profile update(profile updatedProfile) {
-        //валідацію додати
         profile existingProfile = profileRepositoryS.findById(updatedProfile.getId());
+        if (existingProfile == null) {
+            throw new IllegalArgumentException("Profile not found");
+        }
+
+        validateProfile(updatedProfile);
 
         existingProfile.setDescription(updatedProfile.getDescription());
         existingProfile.setAvatarURL(updatedProfile.getAvatarURL());
@@ -57,55 +66,128 @@ public class ProfileServiceImpl implements ProfileService {
         existingProfile.setInstagram(updatedProfile.getInstagram());
         existingProfile.setTwitch(updatedProfile.getTwitch());
         existingProfile.setYoutube(updatedProfile.getYoutube());
-        existingProfile.setSubscribersCount(updatedProfile.getSubscribersCount());
-        existingProfile.setRating(updatedProfile.getRating());
-
+        //рейтинг буде додаватись при 5-10 ревью на креатора, а  поки його не буде
+        //кількість підписників збільшується за допомогою трігера у бд
         return profileRepositoryS.save(existingProfile);
     }
 
     @Override
     public void reportProfile(int profileid,int whoComplainedId,String reason) {
         //перевірки можливі додати
-    profile reportedProfile=profileRepositoryS.findById(profileid);
-    complaint newComplaint = new complaint();
-    newComplaint.setProfile(reportedProfile);
-    newComplaint.setUser(userRepo.findById(whoComplainedId));
-    newComplaint.setReason(reason);
-    newComplaint.setStatus(ComplaintStatus.pending);
-    complaintRepo.save(newComplaint);
+        profile reportedProfile = profileRepositoryS.findById(profileid);
+        if (reportedProfile == null) {
+            throw new IllegalArgumentException("Профіль не знайден");
+        }
+
+        user complainingUser = userRepo.findById(whoComplainedId);
+        if (complainingUser == null) {
+            throw new IllegalArgumentException("Користувач не знайден");
+        }
+
+        if (reason == null || reason.trim().isEmpty()) {
+            throw new IllegalArgumentException("Причина не може бути порожньою");
+        }
+
+        complaint newComplaint = new complaint();
+        newComplaint.setProfile(reportedProfile);
+        newComplaint.setUser(complainingUser);
+        newComplaint.setReason(reason);
+        newComplaint.setStatus(ComplaintStatus.pending);
+        complaintRepo.save(newComplaint);
     }
 
     @Override
     public void subscribeCreator(profile profileToSubscribe,user subscriber) {
-        //перевірки додати
-        user userfindforprofile= userRepo.findById(profileToSubscribe.getUser().getId());
-        user sub= userRepo.findById(subscriber.getId());
+         if (profileToSubscribe == null || subscriber == null) {
+            throw new IllegalArgumentException("Креатор або підписник не можуть бути порожніми");
+        }
+
+        user creator = userRepo.findById(profileToSubscribe.getUser().getId());
+        if (creator == null) {
+            throw new IllegalArgumentException("Креатор не знайден");
+        }
+
+        user subscribingUser = userRepo.findById(subscriber.getId());
+        if (subscribingUser == null) {
+            throw new IllegalArgumentException("Підписник не знайден");
+        }
+
+        if (subcriptionRep.findByCreator_IdAndUser_Id(creator.getId(), subscribingUser.getId()) != null) {
+            throw new IllegalArgumentException("Вже підписан на креатора");
+        }
 
         subscription newSubscription = new subscription();
-        newSubscription.setUser(sub);
-        newSubscription.setCreator(userfindforprofile);
-        LocalDateTime currentDate = LocalDateTime.now();
-        newSubscription.setSubscriptionDate(currentDate);
+        newSubscription.setUser(subscribingUser);
+        newSubscription.setCreator(creator);
+        newSubscription.setSubscriptionDate(LocalDateTime.now());
 
         subcriptionRep.save(newSubscription);
+
     }
 
     @Override
     public void unsubscribeCreator(profile profileToUnsubscribe, user unsubscriber) {
-        //перевірки додати
+        if (profileToUnsubscribe == null || unsubscriber == null) {
+            throw new IllegalArgumentException("Профіль або відписника не можуть бути нульовими");
+        }
 
-        user userfindforprofile = userRepo.findById(profileToUnsubscribe.getUser().getId());
+        user creator = userRepo.findById(profileToUnsubscribe.getUser().getId());
+        if (creator == null) {
+            throw new IllegalArgumentException("Креатор не знайден");
+        }
 
-        user sub = userRepo.findById(unsubscriber.getId());
+        user unsubscribingUser = userRepo.findById(unsubscriber.getId());
+        if (unsubscribingUser == null) {
+            throw new IllegalArgumentException("відписник не знайден");
+        }
 
-        subscription existingSubscription = subcriptionRep.findByCreator_IdAndUser_Id(userfindforprofile.getId(), sub.getId());
+        subscription existingSubscription = subcriptionRep.findByCreator_IdAndUser_Id(creator.getId(), unsubscribingUser.getId());
+        if (existingSubscription == null) {
+            throw new IllegalArgumentException("Немає підписки задля відписки");
+        }
 
-        subcriptionRep.delete(existingSubscription);;
+        subcriptionRep.delete(existingSubscription);
     }
 
     @Override
     public profile getProfileByID(int id) {
-        return profileRepositoryS.findById(id);
+        profile profile = profileRepositoryS.findById(id);
+        if (profile == null) {
+            throw new IllegalArgumentException("Креатор не знайден");
+        }
+        return profile;
+
+    }
+    private void validateProfile(profile updatedProfile) {
+        if (updatedProfile.getDescription() == null || updatedProfile.getDescription().trim().isEmpty()) {
+            throw new IllegalArgumentException("Опис не може бути порожнім");
+        }
+
+        if (!isValidUrl(updatedProfile.getAvatarURL())) {
+            throw new IllegalArgumentException("Avatar URL не валідний");
+        }
+        if (!isValidUrl(updatedProfile.getTiktok())) {
+            throw new IllegalArgumentException("не валідний TikTok URL");
+        }
+
+        if (!isValidUrl(updatedProfile.getInstagram())) {
+            throw new IllegalArgumentException("не валідний Instagram URL");
+        }
+
+        if (!isValidUrl(updatedProfile.getTwitch())) {
+            throw new IllegalArgumentException("не валідний Twitch URL");
+        }
+
+        if (!isValidUrl(updatedProfile.getYoutube())) {
+            throw new IllegalArgumentException("не валідний YouTube URL");
+        }
+    }
+
+    private boolean isValidUrl(String url) {
+        if (url == null || url.trim().isEmpty()) {
+            return true;
+        }
+        return url.matches("^(http|https)://.*$");
     }
 
 }

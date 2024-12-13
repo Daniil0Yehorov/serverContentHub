@@ -34,11 +34,10 @@ public class ServerUaContentHubApplication {
 			Endpoint.publish("http://localhost:8083/ws/profile?wsdl", profileService);
 			//креатор
 			user user1 = new user();
-			user1.setEmail("user1@example.com");
+			user1.setEmail("exampl1e@domain.com");
 			user1.setLogin("user1");
 			user1.setName("User One");
 			user1.setPassword("password1");
-			user1.setEmail("password1");
 			user1.setRole(Role.creator);
 			user1.setStatus(User_Status.active);
 			LocalDateTime currentDate = LocalDateTime.now();
@@ -48,11 +47,10 @@ public class ServerUaContentHubApplication {
 			authService.save(user1);
 			//звичайний користувач
 			user user = new user();
-			user.setEmail("user2@example.com");
+			user.setEmail("example@domain.com");
 			user.setLogin("user2");
 			user.setName("User Two");
 			user.setPassword("password21");
-			user.setEmail("password21");
 			user.setRole(Role.user);
 			user.setStatus(User_Status.active);
 			LocalDateTime currentDate1 = LocalDateTime.now();
@@ -102,7 +100,7 @@ public class ServerUaContentHubApplication {
 			System.out.println("користувач"+user.getName()+", підписався на креатора:"+profile1.getUser().getName());
 
 			profileService.unsubscribeCreator(profile1, user);
-			System.out.println("Пользователь отписался от креатора");
+			System.out.println("Користувач відписався від креатора");
 
 			// приклад репорта
 			profileService.reportProfile(user1.getId(), user.getId(), "Inappropriate content");
