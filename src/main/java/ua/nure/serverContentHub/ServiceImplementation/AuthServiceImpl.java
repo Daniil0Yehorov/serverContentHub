@@ -2,11 +2,12 @@ package ua.nure.serverContentHub.ServiceImplementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.nure.serverContentHub.DTOEntity.UserDTO;
 import ua.nure.serverContentHub.Entity.Enum.Role;
 import ua.nure.serverContentHub.Entity.Profile;
 import ua.nure.serverContentHub.Entity.User;
 import ua.nure.serverContentHub.Repository.UserRepository;
-import ua.nure.serverContentHub.Repository.profileRepository;
+import ua.nure.serverContentHub.Repository.ProfileRepository;
 import ua.nure.serverContentHub.ServiceInterface.AuthService;
 import jakarta.jws.WebService;
 
@@ -19,14 +20,14 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private profileRepository prRepository;
+    private ProfileRepository prRepository;
     private static final Pattern EMAIL_PATTERN = Pattern.compile(
             "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
     );
 
 
-    @Override
-    public void save(User user) {
+    //@Override
+   /* public void save(User user) {
         if (user == null) {
             throw new IllegalArgumentException("Користувач не може бути null.");
         }
@@ -63,6 +64,25 @@ public class AuthServiceImpl implements AuthService {
             user.setProfile(newProfile);
             prRepository.save(newProfile);}
 
+    }*/
+
+    public void save(UserDTO userDTO) {
+        if (userDTO == null) {
+            throw new IllegalArgumentException("Користувач не може бути null.");
+        }
+
+        // Маппим DTO в сущность
+        User user = new User();
+        user.setLogin(userDTO.getLogin());
+        user.setPassword(userDTO.getPassword());
+        user.setName(userDTO.getName());
+        user.setEmail(userDTO.getEmail());
+        user.setRole(userDTO.getRole());
+        user.setRegistrationDate(userDTO.getRegistrationDate());
+        user.setStatus(userDTO.getStatus());
+
+        // Сохраняем пользователя в БД
+        userRepository.save(user);
     }
     @Override
     public User login(String login, String password) {

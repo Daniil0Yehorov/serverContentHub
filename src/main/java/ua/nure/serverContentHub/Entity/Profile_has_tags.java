@@ -2,6 +2,7 @@ package ua.nure.serverContentHub.Entity;
 
 import jakarta.persistence.*;
 
+
 @Entity
 public class Profile_has_tags {
 

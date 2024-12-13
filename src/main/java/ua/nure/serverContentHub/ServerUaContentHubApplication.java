@@ -11,7 +11,7 @@ import ua.nure.serverContentHub.Entity.Enum.User_Status;
 import ua.nure.serverContentHub.Entity.Profile;
 import ua.nure.serverContentHub.Entity.Tags;
 import ua.nure.serverContentHub.Entity.User;
-import ua.nure.serverContentHub.Repository.tagsRepository;
+import ua.nure.serverContentHub.Repository.TagsRepository;
 import ua.nure.serverContentHub.ServiceImplementation.AuthServiceImpl;
 import ua.nure.serverContentHub.ServiceImplementation.ProfileServiceImpl;
 
@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @SpringBootApplication
 public class ServerUaContentHubApplication {
 	@Autowired
-	private tagsRepository tagRepository;
+	private TagsRepository tagRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ServerUaContentHubApplication.class, args);

@@ -1,6 +1,6 @@
 package ua.nure.serverContentHub.Entity;
-import jakarta.persistence.*;
 
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,6 +20,7 @@ public class Post {
 
     @Column(nullable = false,name = "Publish_Date")
     private LocalDateTime publishDate;
+
     @Column(nullable = false,name = "Like_Count")
     private int likeCount;
 

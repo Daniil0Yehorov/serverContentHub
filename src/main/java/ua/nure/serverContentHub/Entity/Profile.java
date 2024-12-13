@@ -17,8 +17,10 @@ public class Profile {
     private User user;
 
     @Column(nullable = false,length = 65535)
+
     private String Description;
-    //default
+
+
     private String AvatarURL;
 
     @Column( length = 65535)

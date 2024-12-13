@@ -5,13 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.nure.serverContentHub.Entity.*;
 import ua.nure.serverContentHub.Entity.Enum.ComplaintStatus;
-import ua.nure.serverContentHub.Repository.complaintRepository;
-import ua.nure.serverContentHub.Repository.profile_has_tagsRepository;
+import ua.nure.serverContentHub.Repository.СomplaintRepository;
+import ua.nure.serverContentHub.Repository.Profile_has_tagsRepository;
 import ua.nure.serverContentHub.ServiceInterface.ProfileService;
-import ua.nure.serverContentHub.Repository.profileRepository;
-import ua.nure.serverContentHub.Repository.tagsRepository;
+import ua.nure.serverContentHub.Repository.ProfileRepository;
+import ua.nure.serverContentHub.Repository.TagsRepository;
 import ua.nure.serverContentHub.Repository.UserRepository;
-import ua.nure.serverContentHub.Repository.subscriptionRepository;
+import ua.nure.serverContentHub.Repository.SubscriptionRepository;
 
 import java.time.LocalDateTime;
 
@@ -19,17 +19,17 @@ import java.time.LocalDateTime;
 @Service
 public class ProfileServiceImpl implements ProfileService {
     @Autowired
-    private profileRepository profileRepositoryS;
+    private ProfileRepository profileRepositoryS;
     @Autowired
     private UserRepository userRepo;
     @Autowired
-    private profile_has_tagsRepository PHSservicerepo;
+    private Profile_has_tagsRepository PHSservicerepo;
     @Autowired
-    private tagsRepository tagsrepo;
+    private TagsRepository tagsrepo;
     @Autowired
-    private complaintRepository complaintRepo;
+    private СomplaintRepository complaintRepo;
     @Autowired
-    private subscriptionRepository subcriptionRep;
+    private SubscriptionRepository subcriptionRep;
 
     @Override
     public void placeTagsForProfile(int profileId, String[] tagNames) {
