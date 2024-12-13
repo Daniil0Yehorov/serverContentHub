@@ -2,7 +2,6 @@ package ua.nure.serverContentHub.ServiceImplementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.nure.serverContentHub.DTOEntity.UserDTO;
 import ua.nure.serverContentHub.Entity.Enum.Role;
 import ua.nure.serverContentHub.Entity.Profile;
 import ua.nure.serverContentHub.Entity.User;
