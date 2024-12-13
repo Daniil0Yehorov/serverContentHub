@@ -2,11 +2,10 @@ package ua.nure.serverContentHub.Entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Entity
-public class post {
+public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true,name = "id")
@@ -14,7 +13,7 @@ public class post {
 
     @ManyToOne
     @JoinColumn(name = "profile_UserID", nullable = false)
-    private profile profile;
+    private Profile profile;
 
     @Column(nullable = false, length =65535)
     private String content;
@@ -25,10 +24,10 @@ public class post {
     private int likeCount;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<ua.nure.serverContentHub.Entity.likes> likes;
+    private List<Likes> likes;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<complaint> complaints;
+    private List<Complaint> complaints;
 
     public int getId() {
         return id;
@@ -38,11 +37,11 @@ public class post {
         this.id = id;
     }
 
-    public profile getProfile() {
+    public Profile getProfile() {
         return profile;
     }
 
-    public void setProfile(profile profile) {
+    public void setProfile(Profile profile) {
         this.profile = profile;
     }
 
@@ -70,24 +69,24 @@ public class post {
         this.likeCount = likeCount;
     }
 
-    public List<ua.nure.serverContentHub.Entity.likes> getLikes() {
+    public List<Likes> getLikes() {
         return likes;
     }
 
-    public void setLikes(List<ua.nure.serverContentHub.Entity.likes> likes) {
+    public void setLikes(List<Likes> likes) {
         this.likes = likes;
     }
 
-    public List<complaint> getComplaints() {
+    public List<Complaint> getComplaints() {
         return complaints;
     }
 
-    public void setComplaints(List<complaint> complaints) {
+    public void setComplaints(List<Complaint> complaints) {
         this.complaints = complaints;
     }
 
-    public post(int id, profile profile, String content, LocalDateTime publishDate,
-                int likeCount, List<likes> likes, List<complaint> complaints) {
+    public Post(int id, Profile profile, String content, LocalDateTime publishDate,
+                int likeCount, List<Likes> likes, List<Complaint> complaints) {
         this.id = id;
         this.profile = profile;
         this.content = content;
@@ -109,5 +108,5 @@ public class post {
                 ", complaints=" + complaints +
                 '}';
     }
-    public post(){}
+    public Post(){}
 }

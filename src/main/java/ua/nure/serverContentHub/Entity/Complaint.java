@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import ua.nure.serverContentHub.Entity.Enum.ComplaintStatus;
 
 @Entity
-public class complaint {
+public class Complaint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true,name = "id")
@@ -13,25 +13,25 @@ public class complaint {
 
     @ManyToOne
     @JoinColumn(name = "UserID")
-    private user user;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "PostID")
-    private post post;
+    private Post post;
 
     @ManyToOne
     @JoinColumn(name = "profile_UserID")
-    private profile profile;
+    private Profile profile;
 
-    @Column(length = 65535, nullable = false,name="Reason")
+    @Column(length = 65535, nullable = false)
     private String Reason;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ComplaintStatus Status;
 
-    public complaint(int id, user user, post post,
-                     profile profile, String reason, ComplaintStatus status) {
+    public Complaint(int id, User user, Post post,
+                     Profile profile, String reason, ComplaintStatus status) {
         this.id = id;
         this.user = user;
         this.post = post;
@@ -48,27 +48,27 @@ public class complaint {
         this.id = id;
     }
 
-    public user getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(user user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
-    public post getPost() {
+    public Post getPost() {
         return post;
     }
 
-    public void setPost(post post) {
+    public void setPost(Post post) {
         this.post = post;
     }
 
-    public profile getProfile() {
+    public Profile getProfile() {
         return profile;
     }
 
-    public void setProfile(profile profile) {
+    public void setProfile(Profile profile) {
         this.profile = profile;
     }
 
@@ -99,5 +99,5 @@ public class complaint {
                 ", Status=" + Status +
                 '}';
     }
-    public complaint(){}
+    public Complaint(){}
 }

@@ -1,8 +1,8 @@
 package ua.nure.serverContentHub.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ua.nure.serverContentHub.Entity.tags;
+import ua.nure.serverContentHub.Entity.Tags;
 
-public interface tagsRepository extends JpaRepository<tags,Long> {
-    tags findByName(String name);
+public interface tagsRepository extends JpaRepository<Tags,Long> {
+    Tags findByName(String name);
 }

@@ -3,7 +3,7 @@ package ua.nure.serverContentHub.Entity;
 import jakarta.persistence.*;
 
 @Entity
-public class profile_has_tags {
+public class Profile_has_tags {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,25 +13,25 @@ public class profile_has_tags {
 
     @ManyToOne
     @JoinColumn(name = "profile_UserID")
-    private profile profile;
+    private Profile profile;
 
     @ManyToOne
     @JoinColumn(name = "tags_id")
-    private tags tags;
+    private Tags tags;
 
-    public profile getProfile() {
+    public Profile getProfile() {
         return profile;
     }
 
-    public void setProfile(profile profile) {
+    public void setProfile(Profile profile) {
         this.profile = profile;
     }
 
-    public tags getTags() {
+    public Tags getTags() {
         return tags;
     }
 
-    public void setTags(tags tags) {
+    public void setTags(Tags tags) {
         this.tags = tags;
     }
 
@@ -52,10 +52,10 @@ public class profile_has_tags {
                 '}';
     }
 
-    public profile_has_tags(int id, profile profile, tags tags) {
+    public Profile_has_tags(int id, Profile profile, Tags tags) {
         this.id = id;
         this.profile = profile;
         this.tags = tags;
     }
-    public profile_has_tags (){}
+    public Profile_has_tags(){}
 }

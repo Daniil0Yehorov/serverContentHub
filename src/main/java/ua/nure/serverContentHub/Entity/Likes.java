@@ -3,9 +3,9 @@ package ua.nure.serverContentHub.Entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+
 @Entity
-public class likes {
+public class Likes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true,name = "id")
@@ -13,11 +13,11 @@ public class likes {
 
     @ManyToOne
     @JoinColumn(name = "UserID", nullable = false)
-    private user user;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "PostID", nullable = false)
-    private post post;
+    private Post post;
 
     @Column(nullable = false,name = "Like_Date")
     private LocalDateTime LikeDate;
@@ -30,19 +30,19 @@ public class likes {
         this.id = id;
     }
 
-    public user getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(user user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
-    public post getPost() {
+    public Post getPost() {
         return post;
     }
 
-    public void setPost(post post) {
+    public void setPost(Post post) {
         this.post = post;
     }
 
@@ -54,7 +54,7 @@ public class likes {
         this.LikeDate = likeDate;
     }
 
-    public likes(int id, user user, post post, LocalDateTime likeDate) {
+    public Likes(int id, User user, Post post, LocalDateTime likeDate) {
         this.id = id;
         this.user = user;
         this.post = post;
@@ -70,5 +70,5 @@ public class likes {
                 ", LikeDate=" + LikeDate +
                 '}';
     }
-    public likes(){}
+    public Likes(){}
 }

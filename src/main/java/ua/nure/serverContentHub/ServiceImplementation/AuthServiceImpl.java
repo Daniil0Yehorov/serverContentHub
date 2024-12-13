@@ -3,8 +3,8 @@ package ua.nure.serverContentHub.ServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.nure.serverContentHub.Entity.Enum.Role;
-import ua.nure.serverContentHub.Entity.profile;
-import ua.nure.serverContentHub.Entity.user;
+import ua.nure.serverContentHub.Entity.Profile;
+import ua.nure.serverContentHub.Entity.User;
 import ua.nure.serverContentHub.Repository.UserRepository;
 import ua.nure.serverContentHub.Repository.profileRepository;
 import ua.nure.serverContentHub.ServiceInterface.AuthService;
@@ -26,7 +26,7 @@ public class AuthServiceImpl implements AuthService {
 
 
     @Override
-    public void save(user user) {
+    public void save(User user) {
         if (user == null) {
             throw new IllegalArgumentException("Користувач не може бути null.");
         }
@@ -57,7 +57,7 @@ public class AuthServiceImpl implements AuthService {
         userRepository.save(user);
             //для креаторів створюється профіль
         if(user.getRole()== Role.creator) {
-            profile newProfile = new profile();
+            Profile newProfile = new Profile();
             newProfile.setUser(user);
             newProfile.setDescription("....");
             user.setProfile(newProfile);
@@ -65,7 +65,7 @@ public class AuthServiceImpl implements AuthService {
 
     }
     @Override
-    public user login(String login, String password) {
+    public User login(String login, String password) {
         if (login == null || login.trim().isEmpty()) {
             throw new IllegalArgumentException("Логін не може бути порожнім.");
         }
@@ -74,19 +74,19 @@ public class AuthServiceImpl implements AuthService {
             throw new IllegalArgumentException("Пароль не може бути порожнім.");
         }
 
-        user foundUser = userRepository.findByLoginAndPassword(login, password);
+        User foundUser = userRepository.findByLoginAndPassword(login, password);
 
         if (foundUser == null) {
             throw new IllegalArgumentException("Невірний логін або пароль.");
         }
         return foundUser;
     }
-    public user findById(int id) {
+    public User findById(int id) {
         if (id <= 0) {
             throw new IllegalArgumentException("ID користувача повинен бути більше 0.");
         }
 
-        user foundUser = userRepository.findById(id);
+        User foundUser = userRepository.findById(id);
 
         if (foundUser == null) {
             throw new IllegalArgumentException("Користувача з таким ID не знайдено.");
@@ -95,12 +95,12 @@ public class AuthServiceImpl implements AuthService {
         return foundUser;
     }
 
-    public user update(user user) {
+    public User update(User user) {
         if (user == null) {
             throw new IllegalArgumentException("Користувач не може бути null.");
         }
 
-        user existingUser = userRepository.findById(user.getId());
+        User existingUser = userRepository.findById(user.getId());
 
         if (existingUser == null) {
             throw new IllegalArgumentException("Користувач з таким ID не знайдено.");

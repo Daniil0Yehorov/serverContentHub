@@ -6,18 +6,16 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import ua.nure.serverContentHub.Entity.Enum.Role;
 import ua.nure.serverContentHub.Entity.Enum.User_Status;
-import ua.nure.serverContentHub.Entity.profile;
-import ua.nure.serverContentHub.Entity.tags;
-import ua.nure.serverContentHub.Entity.user;
+import ua.nure.serverContentHub.Entity.Profile;
+import ua.nure.serverContentHub.Entity.Tags;
+import ua.nure.serverContentHub.Entity.User;
 import ua.nure.serverContentHub.Repository.tagsRepository;
 import ua.nure.serverContentHub.ServiceImplementation.AuthServiceImpl;
 import ua.nure.serverContentHub.ServiceImplementation.ProfileServiceImpl;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @SpringBootApplication
 public class ServerUaContentHubApplication {
@@ -33,7 +31,7 @@ public class ServerUaContentHubApplication {
 			Endpoint.publish("http://localhost:8082/ws/auth?wsdl", authService);
 			Endpoint.publish("http://localhost:8083/ws/profile?wsdl", profileService);
 			//креатор
-			user user1 = new user();
+			User user1 = new User();
 			user1.setEmail("exampl1e@domain.com");
 			user1.setLogin("user1");
 			user1.setName("User One");
@@ -46,7 +44,7 @@ public class ServerUaContentHubApplication {
 
 			authService.save(user1);
 			//звичайний користувач
-			user user = new user();
+			User user = new User();
 			user.setEmail("example@domain.com");
 			user.setLogin("user2");
 			user.setName("User Two");
@@ -60,11 +58,11 @@ public class ServerUaContentHubApplication {
 			authService.save(user);
 
 			//авторизація креатора
-			user loggedInUser = authService.login("user1", "password1");
+			User loggedInUser = authService.login("user1", "password1");
 			System.out.println("Пользователь увійшов: " + loggedInUser.getName());
 
 			//авторизація користувача
-			user loggedInUser1 = authService.login("user2", "password21");
+			User loggedInUser1 = authService.login("user2", "password21");
 			System.out.println("Пользователь увійшов: " + loggedInUser1.getName());
 
 			//оновлення креатора юзера
@@ -74,18 +72,18 @@ public class ServerUaContentHubApplication {
 
 			//з створенням креатора, створився профіль тому оновимо його
 
-			profile profile1 = profileService.getProfileByID(user1.getId());
+			Profile profile1 = profileService.getProfileByID(user1.getId());
 			profile1.setUser(user1);
 			profile1.setDescription("This is a profile description");
 			profileService.update(profile1);
 			System.out.println("Профіль креатора оновлен:"+profile1.getUser().getName());
 
 			//створення тегів до бд. поки не розроблен сервіс адміністратора, запишемо через репозиторій
- 			tags tag=new tags();
+ 			Tags tag=new Tags();
 			tag.setName("Tag1");
 			tagRepository.save(tag);
 
-			tags tag1=new tags();
+			Tags tag1=new Tags();
 			tag1.setName("Tag2");
 			tagRepository.save(tag1);
 

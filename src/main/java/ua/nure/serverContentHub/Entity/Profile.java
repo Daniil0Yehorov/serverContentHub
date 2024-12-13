@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-public class profile {
+public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true,name = "id")
@@ -14,7 +14,7 @@ public class profile {
 
     @OneToOne
     @JoinColumn(name = "UserID")
-    private user user;
+    private User user;
 
     @Column(nullable = false,length = 65535)
     private String Description;
@@ -38,13 +38,13 @@ public class profile {
     //default
     private int Rating;
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<post> posts;
+    private List<Post> posts;
 
     @OneToMany(mappedBy="profile")
-    private Set<profile_has_tags> phs;
+    private Set<Profile_has_tags> phs;
 
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
-    private List<complaint> complaints;
+    private List<Complaint> complaints;
 
 
     public int getId() {
@@ -55,11 +55,11 @@ public class profile {
         this.id = id;
     }
 
-    public user getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(user user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
@@ -127,27 +127,27 @@ public class profile {
         this.Rating = rating;
     }
 
-    public List<post> getPosts() {
+    public List<Post> getPosts() {
         return posts;
     }
 
-    public void setPosts(List<post> posts) {
+    public void setPosts(List<Post> posts) {
         this.posts = posts;
     }
 
-    public Set<profile_has_tags> getPhs() {
+    public Set<Profile_has_tags> getPhs() {
         return phs;
     }
 
-    public void setPhs(Set<profile_has_tags> phs) {
+    public void setPhs(Set<Profile_has_tags> phs) {
         this.phs = phs;
     }
 
-    public List<complaint> getComplaints() {
+    public List<Complaint> getComplaints() {
         return complaints;
     }
 
-    public void setComplaints(List<complaint> complaints) {
+    public void setComplaints(List<Complaint> complaints) {
         this.complaints = complaints;
     }
 
@@ -170,9 +170,9 @@ public class profile {
                 '}';
     }
 
-    public profile(int id, ua.nure.serverContentHub.Entity.user user, String description,
+    public Profile(int id, User user, String description,
                    String avatarURL, String tiktok, String instagram, String twitch,
-                   String youtube, int subscribersCount, int rating, List<post> posts, Set<profile_has_tags> phs, List<complaint> complaints) {
+                   String youtube, int subscribersCount, int rating, List<Post> posts, Set<Profile_has_tags> phs, List<Complaint> complaints) {
         this.id = id;
         this.user = user;
         this.Description = description;
@@ -187,7 +187,7 @@ public class profile {
         this.phs = phs;
         this.complaints = complaints;
     }
-    public profile(){
+    public Profile(){
 
     }
 }

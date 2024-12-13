@@ -1,8 +1,8 @@
 package ua.nure.serverContentHub.ServiceInterface;
 
 import jakarta.jws.WebService;
-import ua.nure.serverContentHub.Entity.profile;
-import ua.nure.serverContentHub.Entity.user;
+import ua.nure.serverContentHub.Entity.Profile;
+import ua.nure.serverContentHub.Entity.User;
 
 /**
  	Зміна даних профілю(з валідацією введених даних)
@@ -19,16 +19,16 @@ public interface ProfileService {
 
     void placeTagsForProfile(int profileId,String[] tags);
     //оновлення даних профілю креатора. Креатор також може  використовувати оновлення користувача
-    profile update(profile updatedProfile);
+    Profile update(Profile updatedProfile);
 
     //репорт на профіль. Репорт за пост, звісно буде в іншому сервісі
     void reportProfile(int profileid,int whoComplainedId,String reason);
 
     //трігери у бд зменшують або збільшують кількість підписок у профілі креатора
-    void subscribeCreator(profile profileToSubscribe, user subscriber);
+    void subscribeCreator(Profile profileToSubscribe, User subscriber);
 
-    void unsubscribeCreator(profile profileToUnsubscribe, user unsubscriber);
+    void unsubscribeCreator(Profile profileToUnsubscribe, User unsubscriber);
 
     //додатково
-    profile getProfileByID(int id);
+    Profile getProfileByID(int id);
 }

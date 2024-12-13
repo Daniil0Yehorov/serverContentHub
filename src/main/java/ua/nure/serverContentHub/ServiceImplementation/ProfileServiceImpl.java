@@ -33,18 +33,18 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public void placeTagsForProfile(int profileId, String[] tagNames) {
-        profile profile = profileRepositoryS.findById(profileId);
+        Profile profile = profileRepositoryS.findById(profileId);
         if (profile == null) {
             throw new IllegalArgumentException("Профіль не знайден");
         }
 
         for (String tagName : tagNames) {
-            tags tag = tagsrepo.findByName(tagName);
+            Tags tag = tagsrepo.findByName(tagName);
             if (tag == null) {
                 throw new IllegalArgumentException("Тег не знайден: " + tagName);
             }
 
-            profile_has_tags profileHasTag = new profile_has_tags();
+            Profile_has_tags profileHasTag = new Profile_has_tags();
             profileHasTag.setProfile(profile);
             profileHasTag.setTags(tag);
             PHSservicerepo.save(profileHasTag);
@@ -52,8 +52,8 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public profile update(profile updatedProfile) {
-        profile existingProfile = profileRepositoryS.findById(updatedProfile.getId());
+    public Profile update(Profile updatedProfile) {
+        Profile existingProfile = profileRepositoryS.findById(updatedProfile.getId());
         if (existingProfile == null) {
             throw new IllegalArgumentException("Profile not found");
         }
@@ -74,12 +74,12 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public void reportProfile(int profileid,int whoComplainedId,String reason) {
         //перевірки можливі додати
-        profile reportedProfile = profileRepositoryS.findById(profileid);
+        Profile reportedProfile = profileRepositoryS.findById(profileid);
         if (reportedProfile == null) {
             throw new IllegalArgumentException("Профіль не знайден");
         }
 
-        user complainingUser = userRepo.findById(whoComplainedId);
+        User complainingUser = userRepo.findById(whoComplainedId);
         if (complainingUser == null) {
             throw new IllegalArgumentException("Користувач не знайден");
         }
@@ -88,7 +88,7 @@ public class ProfileServiceImpl implements ProfileService {
             throw new IllegalArgumentException("Причина не може бути порожньою");
         }
 
-        complaint newComplaint = new complaint();
+        Complaint newComplaint = new Complaint();
         newComplaint.setProfile(reportedProfile);
         newComplaint.setUser(complainingUser);
         newComplaint.setReason(reason);
@@ -97,17 +97,17 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public void subscribeCreator(profile profileToSubscribe,user subscriber) {
+    public void subscribeCreator(Profile profileToSubscribe, User subscriber) {
          if (profileToSubscribe == null || subscriber == null) {
             throw new IllegalArgumentException("Креатор або підписник не можуть бути порожніми");
         }
 
-        user creator = userRepo.findById(profileToSubscribe.getUser().getId());
+        User creator = userRepo.findById(profileToSubscribe.getUser().getId());
         if (creator == null) {
             throw new IllegalArgumentException("Креатор не знайден");
         }
 
-        user subscribingUser = userRepo.findById(subscriber.getId());
+        User subscribingUser = userRepo.findById(subscriber.getId());
         if (subscribingUser == null) {
             throw new IllegalArgumentException("Підписник не знайден");
         }
@@ -116,7 +116,7 @@ public class ProfileServiceImpl implements ProfileService {
             throw new IllegalArgumentException("Вже підписан на креатора");
         }
 
-        subscription newSubscription = new subscription();
+        Subscription newSubscription = new Subscription();
         newSubscription.setUser(subscribingUser);
         newSubscription.setCreator(creator);
         newSubscription.setSubscriptionDate(LocalDateTime.now());
@@ -126,22 +126,22 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public void unsubscribeCreator(profile profileToUnsubscribe, user unsubscriber) {
+    public void unsubscribeCreator(Profile profileToUnsubscribe, User unsubscriber) {
         if (profileToUnsubscribe == null || unsubscriber == null) {
             throw new IllegalArgumentException("Профіль або відписника не можуть бути нульовими");
         }
 
-        user creator = userRepo.findById(profileToUnsubscribe.getUser().getId());
+        User creator = userRepo.findById(profileToUnsubscribe.getUser().getId());
         if (creator == null) {
             throw new IllegalArgumentException("Креатор не знайден");
         }
 
-        user unsubscribingUser = userRepo.findById(unsubscriber.getId());
+        User unsubscribingUser = userRepo.findById(unsubscriber.getId());
         if (unsubscribingUser == null) {
             throw new IllegalArgumentException("відписник не знайден");
         }
 
-        subscription existingSubscription = subcriptionRep.findByCreator_IdAndUser_Id(creator.getId(), unsubscribingUser.getId());
+        Subscription existingSubscription = subcriptionRep.findByCreator_IdAndUser_Id(creator.getId(), unsubscribingUser.getId());
         if (existingSubscription == null) {
             throw new IllegalArgumentException("Немає підписки задля відписки");
         }
@@ -150,15 +150,15 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public profile getProfileByID(int id) {
-        profile profile = profileRepositoryS.findById(id);
+    public Profile getProfileByID(int id) {
+        Profile profile = profileRepositoryS.findById(id);
         if (profile == null) {
             throw new IllegalArgumentException("Креатор не знайден");
         }
         return profile;
 
     }
-    private void validateProfile(profile updatedProfile) {
+    private void validateProfile(Profile updatedProfile) {
         if (updatedProfile.getDescription() == null || updatedProfile.getDescription().trim().isEmpty()) {
             throw new IllegalArgumentException("Опис не може бути порожнім");
         }

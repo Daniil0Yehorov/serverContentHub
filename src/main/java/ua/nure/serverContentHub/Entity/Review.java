@@ -5,10 +5,9 @@ import jakarta.persistence.*;
 import ua.nure.serverContentHub.Entity.Enum.ReviewStatus;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
-public class review {
+public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true,name = "id")
@@ -16,11 +15,11 @@ public class review {
 
     @ManyToOne
     @JoinColumn(name = "UserID", nullable = false)
-    private user user;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "CreatorID", nullable = false)
-    private user creator;
+    private User creator;
 
     @Column(unique = true, length = 65535)
     private String Text;
@@ -43,19 +42,19 @@ public class review {
         this.id = id;
     }
 
-    public user getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(user user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
-    public user getCreator() {
+    public User getCreator() {
         return creator;
     }
 
-    public void setCreator(user creator) {
+    public void setCreator(User creator) {
         this.creator = creator;
     }
 
@@ -91,7 +90,7 @@ public class review {
         this.Status = status;
     }
 
-    public review(int id, user user, user creator, String text,
+    public Review(int id, User user, User creator, String text,
                   int rating, LocalDateTime reviewDate, ReviewStatus status) {
         this.id = id;
         this.user = user;
@@ -114,5 +113,5 @@ public class review {
                 ", Status=" + Status +
                 '}';
     }
-    public review() {}
+    public Review() {}
 }

@@ -5,11 +5,10 @@ import ua.nure.serverContentHub.Entity.Enum.Role;
 import ua.nure.serverContentHub.Entity.Enum.User_Status;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Entity
-public class user {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true,name = "id")
@@ -39,19 +38,19 @@ public class user {
     private User_Status Status;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private profile profile;
+    private Profile profile;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<complaint> complaints;
+    private List<Complaint> complaints;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<review> reviews;
+    private List<Review> reviews;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<subscription> subscriptions;
+    private List<Subscription> subscriptions;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ua.nure.serverContentHub.Entity.likes> likes;
+    private List<Likes> likes;
 
     public int getId() {
         return id;
@@ -117,43 +116,43 @@ public class user {
         Status = status;
     }
 
-    public profile getProfile() {
+    public Profile getProfile() {
         return profile;
     }
 
-    public void setProfile(profile profile) {
+    public void setProfile(Profile profile) {
         this.profile = profile;
     }
 
-    public List<complaint> getComplaints() {
+    public List<Complaint> getComplaints() {
         return complaints;
     }
 
-    public void setComplaints(List<complaint> complaints) {
+    public void setComplaints(List<Complaint> complaints) {
         this.complaints = complaints;
     }
 
-    public List<review> getReviews() {
+    public List<Review> getReviews() {
         return reviews;
     }
 
-    public void setReviews(List<review> reviews) {
+    public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
 
-    public List<subscription> getSubscriptions() {
+    public List<Subscription> getSubscriptions() {
         return subscriptions;
     }
 
-    public void setSubscriptions(List<subscription> subscriptions) {
+    public void setSubscriptions(List<Subscription> subscriptions) {
         this.subscriptions = subscriptions;
     }
 
-    public List<likes> getLikes() {
+    public List<Likes> getLikes() {
         return likes;
     }
 
-    public void setLikes(List<likes> likes) {
+    public void setLikes(List<Likes> likes) {
         this.likes = likes;
     }
 
@@ -176,9 +175,9 @@ public class user {
                 '}';
     }
 
-    public user(int id, String login, String password, String name, String email,
-                Role role, LocalDateTime registrationDate, User_Status status, profile profile,
-                List<complaint> complaints, List<review> reviews, List<subscription> subscriptions, List<ua.nure.serverContentHub.Entity.likes> likes) {
+    public User(int id, String login, String password, String name, String email,
+                Role role, LocalDateTime registrationDate, User_Status status, Profile profile,
+                List<Complaint> complaints, List<Review> reviews, List<Subscription> subscriptions, List<Likes> likes) {
         this.id = id;
         this.login = login;
         this.Password = password;
@@ -193,5 +192,5 @@ public class user {
         this.subscriptions = subscriptions;
         this.likes = likes;
     }
-    public user() {}
+    public User() {}
 }

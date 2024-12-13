@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
-public class tags {
+public class Tags {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true,name = "id")
@@ -16,7 +16,7 @@ public class tags {
     private String name;
 
     @OneToMany(mappedBy = "tags")
-    private Set<profile_has_tags> phs;
+    private Set<Profile_has_tags> phs;
 
     public int getId() {
         return id;
@@ -34,15 +34,15 @@ public class tags {
         this.name = name;
     }
 
-    public Set<profile_has_tags> getPhs() {
+    public Set<Profile_has_tags> getPhs() {
         return phs;
     }
 
-    public void setPhs(Set<profile_has_tags> phs) {
+    public void setPhs(Set<Profile_has_tags> phs) {
         this.phs = phs;
     }
 
-    public tags(int id, String name, Set<profile_has_tags> phs) {
+    public Tags(int id, String name, Set<Profile_has_tags> phs) {
         this.id = id;
         this.name = name;
         this.phs = phs;
@@ -56,5 +56,5 @@ public class tags {
                 ", phs=" + phs +
                 '}';
     }
-    public tags(){}
+    public Tags(){}
 }
