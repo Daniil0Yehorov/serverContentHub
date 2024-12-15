@@ -2,9 +2,12 @@ package ua.nure.serverContentHub.Entity;
 
 
 import jakarta.persistence.*;
+import jakarta.xml.bind.annotation.*;
 import ua.nure.serverContentHub.Entity.Enum.ComplaintStatus;
 
 @Entity
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "Complaint")
 public class Complaint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,6 +18,7 @@ public class Complaint {
     @JoinColumn(name = "UserID")
     private User user;
 
+    @XmlTransient
     @ManyToOne
     @JoinColumn(name = "PostID")
     private Post post;
@@ -24,10 +28,12 @@ public class Complaint {
     private Profile profile;
 
     @Column(length = 65535, nullable = false)
+    @XmlElement
     private String Reason;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @XmlElement
     private ComplaintStatus Status;
 
     public Complaint(int id, User user, Post post,

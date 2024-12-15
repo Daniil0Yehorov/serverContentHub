@@ -1,34 +1,47 @@
 package ua.nure.serverContentHub.Entity;
 
 import jakarta.persistence.*;
+import jakarta.xml.bind.annotation.*;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import ua.nure.serverContentHub.LocalDateTimeAdapter.LocalDateTimeAdapter;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "Post")
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true,name = "id")
     private int id;
 
+    @XmlTransient
     @ManyToOne
     @JoinColumn(name = "profile_UserID", nullable = false)
     private Profile profile;
 
     @Column(nullable = false, length =65535)
+    @XmlElement
     private String content;
 
     @Column(nullable = false,name = "Publish_Date")
+    @XmlElement
+    @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
     private LocalDateTime publishDate;
 
-    @Column(nullable = false,name = "Like_Count")
-    private int likeCount;
-
+    @XmlTransient
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Likes> likes;
 
+    @XmlTransient
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Complaint> complaints;
+
+    @Column(nullable = false,name = "Like_Count")
+    @XmlElement
+    private int likeCount;
 
     public int getId() {
         return id;

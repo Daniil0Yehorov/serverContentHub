@@ -1,5 +1,8 @@
 package ua.nure.serverContentHub.ServiceImplementation;
 
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.nure.serverContentHub.Entity.Enum.Role;
@@ -55,7 +58,7 @@ public class AuthServiceImpl implements AuthService {
         }
         userRepository.save(user);
             //для креаторів створюється профіль
-        if(user.getRole()== Role.creator) {
+        if(user.getRole()== Role.CREATOR) {
             Profile newProfile = new Profile();
             newProfile.setUser(user);
             newProfile.setDescription("....");
@@ -64,7 +67,7 @@ public class AuthServiceImpl implements AuthService {
 
     }
     @Override
-    public User login(String login, String password) {
+    public User login(String login, String password)  {
         if (login == null || login.trim().isEmpty()) {
             throw new IllegalArgumentException("Логін не може бути порожнім.");
         }

@@ -2,36 +2,48 @@ package ua.nure.serverContentHub.Entity;
 
 
 import jakarta.persistence.*;
+import jakarta.xml.bind.annotation.*;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import ua.nure.serverContentHub.Entity.Enum.ReviewStatus;
+import ua.nure.serverContentHub.LocalDateTimeAdapter.LocalDateTimeAdapter;
 
 import java.time.LocalDateTime;
 
 @Entity
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "Review")
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true,name = "id")
     private int id;
 
+    @XmlTransient
     @ManyToOne
     @JoinColumn(name = "UserID", nullable = false)
     private User user;
 
+    @XmlTransient
     @ManyToOne
     @JoinColumn(name = "CreatorID", nullable = false)
     private User creator;
 
     @Column(unique = true, length = 65535)
+    @XmlElement
     private String Text;
 
     @Column(nullable = false)
+    @XmlElement
     private int Rating;
 
     @Column(nullable = false,name = "Review_Date")
+    @XmlElement
+    @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
     private LocalDateTime ReviewDate;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @XmlElement
     private ReviewStatus Status;
 
     public int getId() {

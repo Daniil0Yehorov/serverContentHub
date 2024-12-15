@@ -2,21 +2,26 @@ package ua.nure.serverContentHub.Entity;
 
 
 import jakarta.persistence.*;
+import jakarta.xml.bind.annotation.*;
 
 import java.util.Set;
 
 @Entity
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "Tags")
 public class Tags {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true,name = "id")
     private int id;
 
-    @Column(unique = true, nullable = false,name="name")
-    private String name;
-
+    @XmlTransient
     @OneToMany(mappedBy = "tags")
     private Set<Profile_has_tags> phs;
+
+    @Column(unique = true, nullable = false,name="name")
+    @XmlElement
+    private String name;
 
     public int getId() {
         return id;

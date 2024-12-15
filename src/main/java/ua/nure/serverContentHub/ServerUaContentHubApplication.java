@@ -1,5 +1,9 @@
 package ua.nure.serverContentHub;
 
+import jakarta.xml.bind.JAXB;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
 import jakarta.xml.ws.Endpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -15,6 +19,7 @@ import ua.nure.serverContentHub.Repository.TagsRepository;
 import ua.nure.serverContentHub.ServiceImplementation.AuthServiceImpl;
 import ua.nure.serverContentHub.ServiceImplementation.ProfileServiceImpl;
 
+import java.io.File;
 import java.time.LocalDateTime;
 
 @SpringBootApplication
@@ -36,8 +41,8 @@ public class ServerUaContentHubApplication {
 			user1.setLogin("user1");
 			user1.setName("User One");
 			user1.setPassword("password1");
-			user1.setRole(Role.creator);
-			user1.setStatus(User_Status.active);
+			user1.setRole(Role.CREATOR);
+			user1.setStatus(User_Status.ACTIVE);
 			LocalDateTime currentDate = LocalDateTime.now();
 			System.out.println(currentDate);
 			user1.setRegistrationDate(currentDate);
@@ -49,17 +54,29 @@ public class ServerUaContentHubApplication {
 			user.setLogin("user2");
 			user.setName("User Two");
 			user.setPassword("password21");
-			user.setRole(Role.user);
-			user.setStatus(User_Status.active);
+			user.setRole(Role.USER);
+			user.setStatus(User_Status.ACTIVE);
 			LocalDateTime currentDate1 = LocalDateTime.now();
 			System.out.println(currentDate1);
 			user.setRegistrationDate(currentDate1);
 
+			//test маршалинг
+			JAXBContext jaxBC= JAXBContext.newInstance(User.class);
+			Marshaller jaxbm=jaxBC.createMarshaller();
+			File xmlFile = new File("src/main/resources/static/tes.xml");
+			jaxbm.marshal(user,System.out);
+			jaxbm.marshal(user,xmlFile);
 			authService.save(user);
+			//анмаршалинг
+			JAXBContext jaxbC=JAXBContext.newInstance(User.class);
+			Unmarshaller jaxbU=jaxbC.createUnmarshaller();
+			User user22= (User) jaxbU.unmarshal(xmlFile);
+			System.out.println(user22);
 
 			//авторизація креатора
 			User loggedInUser = authService.login("user1", "password1");
 			System.out.println("Пользователь увійшов: " + loggedInUser.getName());
+
 
 			//авторизація користувача
 			User loggedInUser1 = authService.login("user2", "password21");

@@ -1,16 +1,18 @@
 package ua.nure.serverContentHub.Entity;
 
 import jakarta.persistence.*;
+import jakarta.xml.bind.annotation.*;
 
 
 @Entity
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "Profile_has_tags")
 public class Profile_has_tags {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true,name = "id")
     private int id;
-
 
     @ManyToOne
     @JoinColumn(name = "profile_UserID")

@@ -1,11 +1,16 @@
 package ua.nure.serverContentHub.Entity;
 
 import jakarta.persistence.*;
+import jakarta.xml.bind.annotation.*;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import ua.nure.serverContentHub.LocalDateTimeAdapter.LocalDateTimeAdapter;
 
 import java.time.LocalDateTime;
 
 
 @Entity
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "Subscription")
 public class Subscription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +26,8 @@ public class Subscription {
     private User creator;
 
     @Column(nullable = false,name="Subscription_Date")
+    @XmlElement
+    @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
     private LocalDateTime SubscriptionDate;
 
     public int getId() {

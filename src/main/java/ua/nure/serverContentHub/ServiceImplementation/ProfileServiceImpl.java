@@ -92,7 +92,7 @@ public class ProfileServiceImpl implements ProfileService {
         newComplaint.setProfile(reportedProfile);
         newComplaint.setUser(complainingUser);
         newComplaint.setReason(reason);
-        newComplaint.setStatus(ComplaintStatus.pending);
+        newComplaint.setStatus(ComplaintStatus.PENDING);
         complaintRepo.save(newComplaint);
     }
 

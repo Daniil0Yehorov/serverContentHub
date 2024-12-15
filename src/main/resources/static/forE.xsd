@@ -1,144 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <!-- Типы для каждой таблицы -->
 
-    <!-- User table -->
-    <xs:element name="user">
+    <!-- Таблица User -->
+    <xs:element name="User">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="id" type="xs:int"/>
                 <xs:element name="login" type="xs:string"/>
-                <xs:element name="password" type="xs:string"/>
-                <xs:element name="name" type="xs:string"/>
-                <xs:element name="email" type="xs:string"/>
-                <xs:element name="role">
-                    <xs:simpleType>
-                        <xs:restriction base="xs:string">
-                            <xs:enumeration value="user"/>
-                            <xs:enumeration value="creator"/>
-                            <xs:enumeration value="admin"/>
-                        </xs:restriction>
-                    </xs:simpleType>
-                </xs:element>
-                <xs:element name="registrationDate" type="xs:date"/>
-                <xs:element name="status">
-                    <xs:simpleType>
-                        <xs:restriction base="xs:string">
-                            <xs:enumeration value="active"/>
-                            <xs:enumeration value="banned"/>
-                        </xs:restriction>
-                    </xs:simpleType>
-                </xs:element>
+                <xs:element name="Password" type="xs:string"/>
+                <xs:element name="Name" type="xs:string"/>
+                <xs:element name="Email" type="xs:string"/>
+                <xs:element name="Role" type="xs:string"/>
+                <xs:element name="Registration_Date" type="xs:date"/>
+                <xs:element name="Status" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <!-- Profile table -->
-    <xs:element name="profile">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="userID" type="xs:int"/>
-                <xs:element name="description" type="xs:string"/>
-                <xs:element name="avatarURL" type="xs:string" minOccurs="0"/>
-                <xs:element name="tiktok" type="xs:string" minOccurs="0"/>
-                <xs:element name="instagram" type="xs:string" minOccurs="0"/>
-                <xs:element name="twitch" type="xs:string" minOccurs="0"/>
-                <xs:element name="youtube" type="xs:string" minOccurs="0"/>
-                <xs:element name="subscribersCount" type="xs:int" default="0"/>
-                <xs:element name="rating" type="xs:int" minOccurs="0"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-
-    <!-- Post table -->
-    <xs:element name="post">
+    <!-- Таблица Profile -->
+    <xs:element name="Profile">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="id" type="xs:int"/>
-                <xs:element name="profileUserID" type="xs:int"/>
+                <xs:element name="UserID" type="xs:int"/>
+                <xs:element name="Description" type="xs:string"/>
+                <xs:element name="AvatarURL" type="xs:string" minOccurs="0"/>
+                <xs:element name="TikTok" type="xs:string" minOccurs="0"/>
+                <xs:element name="Instagram" type="xs:string" minOccurs="0"/>
+                <xs:element name="Twitch" type="xs:string" minOccurs="0"/>
+                <xs:element name="Youtube" type="xs:string" minOccurs="0"/>
+                <xs:element name="Subscribers_Count" type="xs:int"/>
+                <xs:element name="Rating" type="xs:int" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Таблица Post -->
+    <xs:element name="Post">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:int"/>
+                <xs:element name="profile_UserID" type="xs:int"/>
                 <xs:element name="content" type="xs:string"/>
-                <xs:element name="publishDate" type="xs:date"/>
-                <xs:element name="likeCount" type="xs:int" default="0"/>
+                <xs:element name="Publish_Date" type="xs:date"/>
+                <xs:element name="Like_Count" type="xs:int"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <!-- Complaint table -->
-    <xs:element name="complaint">
+    <!-- Таблица Complaint -->
+    <xs:element name="Complaint">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="id" type="xs:int"/>
-                <xs:element name="userID" type="xs:int"/>
-                <xs:element name="postID" type="xs:int" minOccurs="0"/>
-                <xs:element name="profileUserID" type="xs:int" minOccurs="0"/>
-                <xs:element name="reason" type="xs:string"/>
-                <xs:element name="status">
-                    <xs:simpleType>
-                        <xs:restriction base="xs:string">
-                            <xs:enumeration value="pending"/>
-                            <xs:enumeration value="resolved"/>
-                            <xs:enumeration value="dismissed"/>
-                        </xs:restriction>
-                    </xs:simpleType>
-                </xs:element>
+                <xs:element name="UserID" type="xs:int"/>
+                <xs:element name="PostID" type="xs:int" minOccurs="0"/>
+                <xs:element name="profile_UserID" type="xs:int" minOccurs="0"/>
+                <xs:element name="Reason" type="xs:string"/>
+                <xs:element name="Status" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <!-- Like table -->
-    <xs:element name="like">
+    <!-- Таблица Likes -->
+    <xs:element name="Likes">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="id" type="xs:int"/>
-                <xs:element name="userID" type="xs:int"/>
-                <xs:element name="postID" type="xs:int"/>
-                <xs:element name="likeDate" type="xs:date"/>
+                <xs:element name="UserID" type="xs:int"/>
+                <xs:element name="PostID" type="xs:int"/>
+                <xs:element name="Like_Date" type="xs:date"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <!-- Review table -->
-    <xs:element name="review">
+    <!-- Таблица Review -->
+    <xs:element name="Review">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="id" type="xs:int"/>
-                <xs:element name="userID" type="xs:int"/>
-                <xs:element name="creatorID" type="xs:int"/>
-                <xs:element name="text" type="xs:string"/>
-                <xs:element name="rating">
-                    <xs:simpleType>
-                        <xs:restriction base="xs:int">
-                            <xs:minInclusive value="1"/>
-                            <xs:maxInclusive value="5"/>
-                        </xs:restriction>
-                    </xs:simpleType>
-                </xs:element>
-                <xs:element name="reviewDate" type="xs:date"/>
-                <xs:element name="status">
-                    <xs:simpleType>
-                        <xs:restriction base="xs:string">
-                            <xs:enumeration value="not Approved"/>
-                            <xs:enumeration value="Approved"/>
-                        </xs:restriction>
-                    </xs:simpleType>
-                </xs:element>
+                <xs:element name="UserID" type="xs:int"/>
+                <xs:element name="CreatorID" type="xs:int"/>
+                <xs:element name="Text" type="xs:string"/>
+                <xs:element name="Rating" type="xs:int"/>
+                <xs:element name="Review_Date" type="xs:date"/>
+                <xs:element name="Status" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <!-- Subscription table -->
-    <xs:element name="subscription">
+    <!-- Таблица Subscription -->
+    <xs:element name="Subscription">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="id" type="xs:int"/>
-                <xs:element name="userID" type="xs:int"/>
-                <xs:element name="creatorID" type="xs:int"/>
-                <xs:element name="subscriptionDate" type="xs:date"/>
+                <xs:element name="UserID" type="xs:int"/>
+                <xs:element name="CreatorID" type="xs:int"/>
+                <xs:element name="Subscription_Date" type="xs:date"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <!-- Tags table -->
-    <xs:element name="tags">
+    <!-- Таблица Tags -->
+    <xs:element name="Tags">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="id" type="xs:int"/>
@@ -147,14 +112,14 @@
         </xs:complexType>
     </xs:element>
 
-    <!-- Profile_has_tags table -->
-    <xs:element name="profile_has_tags">
+    <!-- Таблица Profile_has_tags -->
+    <xs:element name="Profile_has_tags">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="tagsID" type="xs:int"/>
-                <xs:element name="profileUserID" type="xs:int"/>
+                <xs:element name="id" type="xs:int"/>
+                <xs:element name="tags_id" type="xs:int"/>
+                <xs:element name="profile_UserID" type="xs:int"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-
 </xs:schema>

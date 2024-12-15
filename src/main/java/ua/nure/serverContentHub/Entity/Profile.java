@@ -1,11 +1,14 @@
 package ua.nure.serverContentHub.Entity;
 
 import jakarta.persistence.*;
+import jakarta.xml.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
 
 @Entity
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "Profile")
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,37 +20,46 @@ public class Profile {
     private User user;
 
     @Column(nullable = false,length = 65535)
-
+    @XmlElement
     private String Description;
 
-
+    @XmlElement
     private String AvatarURL;
 
     @Column( length = 65535)
+    @XmlElement
     private String Tiktok;
 
     @Column( length = 65535)
+    @XmlElement
     private String Instagram;
 
     @Column(length = 65535)
+    @XmlElement
     private String Twitch;
 
     @Column( length = 65535)
+    @XmlElement
     private String Youtube;
 
     @Column(name="Subscribers_Count")
+    @XmlElement
     private int SubscribersCount;
-    //default
-    private int Rating;
+
+    @XmlTransient
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
 
-    @OneToMany(mappedBy="profile")
+    @XmlTransient
+    @OneToMany(mappedBy = "profile")
     private Set<Profile_has_tags> phs;
 
+    @XmlTransient
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
     private List<Complaint> complaints;
 
+    @XmlElement
+    private int Rating;
 
     public int getId() {
         return id;

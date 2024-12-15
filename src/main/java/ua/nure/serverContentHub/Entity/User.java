@@ -1,13 +1,18 @@
 package ua.nure.serverContentHub.Entity;
 
 import jakarta.persistence.*;
+import jakarta.xml.bind.annotation.*;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import ua.nure.serverContentHub.Entity.Enum.Role;
 import ua.nure.serverContentHub.Entity.Enum.User_Status;
+import ua.nure.serverContentHub.LocalDateTimeAdapter.LocalDateTimeAdapter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "User")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,43 +20,55 @@ public class User {
     private int id;
 
     @Column(unique = true, nullable = false,name = "login")
+    @XmlElement
     private String login;
 
     @Column(nullable = false,name = "Password")
+    @XmlElement
     private String Password;
 
     @Column(unique = true, nullable = false,name = "Name")
+    @XmlElement
     private String Name;
 
-
     @Column(unique = true, nullable = false,name = "Email")
+    @XmlElement
     private String Email;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false,name = "Role")
+    @XmlElement
     private Role role;
 
     @Column(nullable = false,name = "Registration_Date")
+    @XmlElement
+    @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
     private LocalDateTime RegistrationDate;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private User_Status Status;
-
+    @XmlTransient
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Profile profile;
 
+    @XmlTransient
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Complaint> complaints;
 
+    @XmlTransient
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
 
+    @XmlTransient
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Subscription> subscriptions;
 
+    @XmlTransient
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Likes> likes;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @XmlElement
+    private User_Status Status;
 
     public int getId() {
         return id;
