@@ -4,14 +4,7 @@ import jakarta.jws.WebService;
 import ua.nure.serverContentHub.Entity.Profile;
 import ua.nure.serverContentHub.Entity.User;
 
-/**
- 	Зміна даних профілю(з валідацією введених даних)
- 	Перегляд профілю
- 	Підписка на креаторів
- 	Відписка від креаторі
- 	Можливість кинути жалобу
- 	Призначення тегів до профілю креатора(Адміністратор)
- */
+
 
 @WebService(targetNamespace = "http://ServiceImplementation.serverContentHub.nure.ua/")
 public interface ProfileService {
