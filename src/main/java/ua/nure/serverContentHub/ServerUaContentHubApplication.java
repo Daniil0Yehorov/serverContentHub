@@ -10,6 +10,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import ua.nure.registryservice.serviceimplementation.Registry;
+import ua.nure.registryservice.serviceimplementation.ServiceRegistry;
+import ua.nure.registryservice.serviceimplementation.Status;
 import ua.nure.serverContentHub.Entity.Enum.Role;
 import ua.nure.serverContentHub.Entity.Enum.User_Status;
 import ua.nure.serverContentHub.Entity.Profile;
@@ -20,6 +23,9 @@ import ua.nure.serverContentHub.ServiceImplementation.AuthServiceImpl;
 import ua.nure.serverContentHub.ServiceImplementation.ContentServiceImpl;
 import ua.nure.serverContentHub.ServiceImplementation.ProfileServiceImpl;
 
+import javax.xml.namespace.QName;
+import java.net.URL;
+
 import java.io.File;
 import java.time.LocalDateTime;
 
@@ -27,6 +33,7 @@ import java.time.LocalDateTime;
 public class ServerUaContentHubApplication {
 	@Autowired
 	private TagsRepository tagRepository;
+	private static ServiceRegistry registryService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ServerUaContentHubApplication.class, args);
@@ -35,9 +42,56 @@ public class ServerUaContentHubApplication {
 	public CommandLineRunner publishWebService(AuthServiceImpl authService,
 											   ProfileServiceImpl profileService, ContentServiceImpl contentService) {
 		return args -> {
-			Endpoint.publish("http://localhost:8082/ws/auth?wsdl", authService);
-			Endpoint.publish("http://localhost:8083/ws/profile?wsdl", profileService);
-			Endpoint.publish("http://localhost:8084/ws/content?wsdl", contentService);
+			String urlAuth="http://localhost:8082/ws/auth?wsdl";
+			String urlprofile="http://localhost:8083/ws/profile?wsdl";
+			String urlcontent="http://localhost:8084/ws/content?wsdl";
+			Endpoint.publish(urlAuth, authService);
+			Endpoint.publish(urlprofile, profileService);
+			Endpoint.publish(urlcontent, contentService);
+			//додавання сервісів до реєстру
+			URL registryServiceWsdlURL = new URL("http://localhost:8089/ws/Registry?wsdl");
+			QName authQName = new QName("http://ServiceImplementation.RegistryService.nure.ua/", "ServiceRegistryImplService");;
+			jakarta.xml.ws.Service registryServiceInstance = jakarta.xml.ws.Service.create(registryServiceWsdlURL, authQName);
+			registryService = registryServiceInstance .getPort(ServiceRegistry.class);
+
+			//реєстрація сервісів у реєстрі
+			try{
+				Registry registry=new Registry();
+				registry.setWsdlurl(urlAuth);
+				registry.setServicename("authService");
+				registry.setStatus(Status.AVAILABLE);
+				registry.setRegistrationDate(LocalDateTime.now());
+				registry.setDescription("...");
+				registryService.registerService(registry);
+			}
+			catch(Exception e){
+				System.out.println("Помилка сервісу: " + e.getMessage());
+			}
+			try{
+				Registry registry1=new Registry();
+				registry1.setWsdlurl(urlprofile);
+				registry1.setServicename("profileService");
+				registry1.setStatus(Status.AVAILABLE);
+				registry1.setRegistrationDate(LocalDateTime.now());
+				registry1.setDescription("...");
+				registryService.registerService(registry1);
+			}
+			catch(Exception e){
+				System.out.println("Помилка сервісу: " + e.getMessage());
+			}
+			try{
+				Registry registry11=new Registry();
+				registry11.setWsdlurl(urlcontent);
+				registry11.setServicename("contentService");
+				registry11.setStatus(Status.AVAILABLE);
+				registry11.setRegistrationDate(LocalDateTime.now());
+				registry11.setDescription("...");
+				registryService.registerService(registry11);
+			}
+			catch(Exception e){
+				System.out.println("Помилка сервісу: " + e.getMessage());
+			}
+
 			//креатор
 			User user1 = new User();
 			user1.setEmail("exampl1e@domain.com");
@@ -75,7 +129,7 @@ public class ServerUaContentHubApplication {
 			System.out.println(currentDate1);
 			user.setRegistrationDate(currentDate1);
 			authService.save(user);
-			//test маршалинг
+			//test маршалінг
 			/*
 			JAXBContext jaxBC= JAXBContext.newInstance(User.class);
 			Marshaller jaxbm=jaxBC.createMarshaller();
@@ -83,7 +137,7 @@ public class ServerUaContentHubApplication {
 			jaxbm.marshal(user,System.out);
 			jaxbm.marshal(user,xmlFile);
 			authService.save(user);*/
-			//анмаршалинг
+			//анмаршалінг
 			/*
 			JAXBContext jaxbC=JAXBContext.newInstance(User.class);
 			Unmarshaller jaxbU=jaxbC.createUnmarshaller();
@@ -112,7 +166,8 @@ public class ServerUaContentHubApplication {
 			profileService.update(profile1);
 			System.out.println("Профіль креатора оновлен:"+profile1.getUser().getName());
 
-			//створення тегів до бд. поки не розроблен сервіс адміністратора, запишемо через репозиторій
+			//створення тегів до бд. поки не розроблен сервіс адміністратора,
+			// запишемо через репозиторій
  			Tags tag=new Tags();
 			tag.setName("Tag1");
 			tagRepository.save(tag);
@@ -140,14 +195,14 @@ public class ServerUaContentHubApplication {
 
 			// Пошук за тегами
 			List<Profile> creatorsByTags = contentService.searchCreatorsByTags(List.of("Tag1", "Tag2"));
-			System.out.println("Креаторы с тегом 'Tag1' i 'Tag2':");
+			System.out.println("Креатори з  тегами 'Tag1' i 'Tag2':");
 			creatorsByTags.forEach(creator -> System.out.println(creator.getUser().getName()));
 
 			Profile retrievedProfile = contentService.viewContent(profile1.getId());
-			System.out.println("Контент профиля: " + retrievedProfile.getDescription());
+			System.out.println("Профіль: " + retrievedProfile.getDescription());
 
 			List<Profile> allCreators = contentService.getAllCreators();
-			System.out.println("Список всех креаторов:");
+			System.out.println("Список усіх креаторів:");
 			allCreators.forEach(creator -> System.out.println(creator.getUser().getName()));
 		};
 	}
