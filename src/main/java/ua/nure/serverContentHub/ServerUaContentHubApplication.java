@@ -58,7 +58,7 @@ public class ServerUaContentHubApplication {
 			try{
 				Registry registry=new Registry();
 				registry.setWsdlurl(urlAuth);
-				registry.setServicename("authService");
+				registry.setServicename("AuthService");
 				registry.setStatus(Status.AVAILABLE);
 				registry.setRegistrationDate(LocalDateTime.now());
 				registry.setDescription("...");
@@ -70,7 +70,7 @@ public class ServerUaContentHubApplication {
 			try{
 				Registry registry1=new Registry();
 				registry1.setWsdlurl(urlprofile);
-				registry1.setServicename("profileService");
+				registry1.setServicename("ProfileService");
 				registry1.setStatus(Status.AVAILABLE);
 				registry1.setRegistrationDate(LocalDateTime.now());
 				registry1.setDescription("...");
@@ -82,7 +82,7 @@ public class ServerUaContentHubApplication {
 			try{
 				Registry registry11=new Registry();
 				registry11.setWsdlurl(urlcontent);
-				registry11.setServicename("contentService");
+				registry11.setServicename("ContentService");
 				registry11.setStatus(Status.AVAILABLE);
 				registry11.setRegistrationDate(LocalDateTime.now());
 				registry11.setDescription("...");

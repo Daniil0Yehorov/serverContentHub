@@ -21,7 +21,6 @@ public class ContentServiceImpl implements ContentService {
     private TagsRepository tagsRepository;
 
     public List<Profile> searchCreatorsByTags(List<String> tagNames) {
-        //потім додати валідацію
         List<Tags> tags = tagsRepository.findByNameIn(tagNames);
 
         if (tags.isEmpty()) {
@@ -34,12 +33,10 @@ public class ContentServiceImpl implements ContentService {
     }
 
     public Profile viewContent(int profileId) {
-        //потім додати валідацію
         return profileRepository.findById(profileId);
     }
 
     public List<Profile> getAllCreators() {
-        //потім додати валідацію
         return profileRepository.findAll();
     }
 
